@@ -1,0 +1,20 @@
+local HWID = game:GetService("RbxAnalyticsService"):GetClientId();
+local WhitelistedHWIDs = {"2ADB3002-2707-4A34-9721-EE9BD0555CC9"}
+local qNVAKkuwxNpqruLjSRHg = false
+
+function CheckHWID(hwidval)
+for _,whitelisted in pairs(WhitelistedHWIDs) do
+ if hwidval == whitelisted then
+     return true
+ elseif hwidval ~= whitelisted then
+     return false
+       end
+    end
+end
+
+qNVAKkuwxNpqruLjSRHg = CheckHWID(HWID)
+
+if qNVAKkuwxNpqruLjSRHg == true then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/GAMES'))()
+ print("You Have Been Whitelisted!")
+end
