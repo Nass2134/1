@@ -1,20 +1,24 @@
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId();
-local WhitelistedHWIDs = {"0E088433-D1AF-464C-A6F8-C082E05E837F","21B91060-5E9E-43BC-A097-3E8A74D712F3","4ADB74A7-AB31-4E88-AD4C-F3082F0B8322","2ADB3002-2707-4A34-9721-EE9BD0555CC9","0A8D243C-6B95-486D-8A26-E02E3AE84B65"}
-local qNVAKkuwxNpqruLjSRHg = false
+local Players = game.Players
+local LocalPlayer = Players.LocalPlayer
+local Whitelisted = {"onlywooska","Builderman","username"}
+-- Secret Whitelist Stuff
+local tFupCXWQXYribv0PS9Wy = {}
+tFupCXWQXYribv0PS9Wy.wtu34sA66Mek1WwdBtrh = {
+4yPngOBBv64LbGUqBmoL = false
+}
 
-function CheckHWID(hwidval)
-for _,whitelisted in pairs(WhitelistedHWIDs) do
- if hwidval == whitelisted then
-     return true
- elseif hwidval ~= whitelisted then
-     return false
-       end
-    end
+function Check(name)
+for _,names in pairs(Whitelisted) do
+if name == names then
+return true
+end
+end
 end
 
-qNVAKkuwxNpqruLjSRHg = CheckHWID(HWID)
+tFupCXWQXYribv0PS9Wy.wtu34sA66Mek1WwdBtrh.4yPngOBBv64LbGUqBmoL = Check(LocalPlayer.Name)
+wait(0.1)
 
-if qNVAKkuwxNpqruLjSRHg == true then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/GAMES'))()
- print("You Have Been Whitelisted!")
+if tFupCXWQXYribv0PS9Wy.wtu34sA66Mek1WwdBtrh.4yPngOBBv64LbGUqBmoL == true then
+-- Whitelisted Stuff
+loadstring(game:HttpGet('https://pastebin.com/raw/HDaV96JU'))()
 end
