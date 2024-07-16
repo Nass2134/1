@@ -184,6 +184,18 @@ ShotMeter()
    end,
 })
 
+local Button = Tab:CreateButton({
+   Name = "INF STAMINA",
+   Callback = function()
+   while true do
+game.Players.LocalPlayer.PlayerScripts.Events.Player.Stamina.Stamina.Value = 9001
+wait()
+end
+   end,
+})
+
+
+
 
 local Section = Tab:CreateSection("Other HAXHUB ")
 
