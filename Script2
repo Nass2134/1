@@ -32,6 +32,7 @@ local Tab = Window:CreateTab("MAIN", 12684121195) -- Title, Image
 local Tab2 = Window:CreateTab("Player", 4483362458) -- Title, Image
 local Tab3 = Window:CreateTab("Teleports", 4483362458) -- Title, Image
 local Tab4 = Window:CreateTab("Settings", 4483362458) -- Title, Image
+local Tab5 = Window:CreateTab("HUBS", 4483362458) -- Title, Image
 
 
 
@@ -468,5 +469,67 @@ local lightning = game:GetService("Lighting")
                 v:Destroy()
             end
         end
+   end,
+})
+
+
+
+local Button = Tab4:CreateButton({
+   Name = "Inf Yield",
+   Callback = function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+
+
+-- TAB 5
+local Section = Tab5:CreateSection("Other HUBS")
+
+
+local Button = Tab5:CreateButton({
+   Name = "TBO",
+   Callback = function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/cool5013/TBO/main/TBOscript'))()
+   end,
+})
+
+
+
+local Button = Tab5:CreateButton({
+   Name = "AZUREMODDED",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/PA4M2ugH"))()
+   end,
+})
+
+local Button = Tab5:CreateButton({
+   Name = "Faded",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/NighterEpic/FadedLock/main/YesEpic"))()
+   end,
+})
+
+
+local Button = Tab5:CreateButton({
+   Name = "Polakya",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/pixelheadx/Polakya/main/Bestscript.md"))();
+   end,
+})
+
+
+local Button = Tab5:CreateButton({
+   Name = "Vortex",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/ImagineProUser/vortexdahood/main/vortex", true))()
+   end,
+})
+
+
+local Button = Tab5:CreateButton({
+   Name = "Swagmode",
+   Callback = function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/lerkermer/lua-projects/master/SwagModeV002'))()
    end,
 })
