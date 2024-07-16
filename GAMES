@@ -1,0 +1,7 @@
+if game.PlaceId == 360589910 then --HOOPS DEMO
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/README.md'))()
+end
+
+if game.PlaceId == 2788229376 then --DA HOOD
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script2'))()
+end
