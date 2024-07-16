@@ -1,7 +1,7 @@
 -- Whitelist with corresponding keys for each username
 local whitelist = {
-    onlywooska = "test123",
-    Undeletestompedby1k = "owner",
+    onlywooska = "secrettoHAXhub!",
+    Wildman_TheGoat = "DWQJU238432Bcifohj",
     theyenvydiamonds = "owner",
     
     -- Add more usernames and keys as needed
