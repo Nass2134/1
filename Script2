@@ -1,0 +1,472 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "(DA HOOD) HAXHUB ",
+   LoadingTitle = "HAXHUB Paid Edition.",
+   LoadingSubtitle = "by HaxNas",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = hax, -- Create a custom folder for your hub/game
+      FileName = "hax hub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "discord.gg/haxscripts", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "HAXHUB Key System",
+      Subtitle = "Need Key!",
+      Note = "Purchase From Discord!",
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"pkwDDWKadanopNODNWAOP", "hcnDSIJCns"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+
+
+local Tab = Window:CreateTab("MAIN", 12684121195) -- Title, Image
+local Tab2 = Window:CreateTab("Player", 4483362458) -- Title, Image
+local Tab3 = Window:CreateTab("Teleports", 4483362458) -- Title, Image
+local Tab4 = Window:CreateTab("Settings", 4483362458) -- Title, Image
+
+
+
+-- TAB 1
+local Section = Tab:CreateSection("HAX Features")
+
+
+local Button = Tab:CreateButton({
+   Name = "STRECHED RES",
+   Callback = function()
+   loadstring(game:HttpGet('https://pastebin.com/raw/RsNCn2Zn'))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Silent Aim (DONT MISS)",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/TheRealXORA/Roblox-Scripts/main/Rainbow%20Sunshine%20Aimlock.lua", true))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "TAPPED Silent Aim (P)",
+   Callback = function()
+   loadstring(game:HttpGet('https://pastebin.com/raw/zVCwWszZ'))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Aim Assist",
+   Callback = function()
+   local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+ 
+local player = Players.LocalPlayer
+local mouse = player:GetMouse()
+local camera = workspace.CurrentCamera
+ 
+local function getClosestPlayerToMouse()
+    local closestPlayer = nil
+    local closestDistance = math.huge
+ 
+    for _, otherPlayer in pairs(Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character and otherPlayer.Character:FindFirstChild("UpperTorso") then
+            local screenPoint = camera:WorldToScreenPoint(otherPlayer.Character.UpperTorso.Position)
+            local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - Vector2.new(mouse.X, mouse.Y)).Magnitude
+            if distance < closestDistance then
+                closestDistance = distance
+                closestPlayer = otherPlayer
+            end
+        end
+    end
+ 
+    return closestPlayer
+end
+ 
+local function attachPartToPlayer(player)
+    local character = player.Character
+    if not character or not character:FindFirstChild("UpperTorso") then return end
+ 
+    local part = Instance.new("Part")
+    part.Size = Vector3.new(0.1, 0.1, 0.1)
+    part.Anchored = false
+    part.CanCollide = false
+    part.Transparency = 1
+    part.Parent = workspace
+ 
+    local weld = Instance.new("WeldConstraint")
+    weld.Part0 = character.UpperTorso
+    weld.Part1 = part
+    weld.Parent = part
+ 
+    part.CFrame = character.UpperTorso.CFrame
+ 
+    return part
+end
+ 
+local function lookAtPart(part)
+    local offset = Vector3.new(0, 0, 5)
+    local targetPosition = part.Position - (part.CFrame.LookVector * offset.Z)
+    camera.CameraType = Enum.CameraType.Scriptable
+ 
+    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+    local targetCFrame = CFrame.new(targetPosition, part.Position)
+    local tween = TweenService:Create(camera, tweenInfo, {CFrame = targetCFrame})
+    tween:Play()
+end
+ 
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.Q then
+        local closestPlayer = getClosestPlayerToMouse()
+        if closestPlayer then
+            local part = attachPartToPlayer(closestPlayer)
+            if part then
+                lookAtPart(part)
+            end
+        end
+    end
+end)
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Da Hood Admin Panel (CLIENTSIDED)",
+   Callback = function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/Manny72911/modmenu/main/modmenu'))()
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Fake Macro",
+   Callback = function()
+    local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+local Notify = AkaliNotif.Notify;
+Notify({
+Description = "Subscribe to HAXNAS on YouTube";
+Title = "_haxnass On Discord";
+Duration = 15;
+});
+getgenv().Speed = true
+getgenv().FakeMacro = true
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Allvideo/nukermode/main/Kit%20tools.txt"))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Shazam Fly (RayCodex)",
+   Callback = function()
+     -- Da Hood Shazam Fly made by Raycodex#9595
+ 
+--// Settings
+_G.ShazamFlySpeed = 3
+ 
+--// Script
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Raycodex/Exploiting/main/Roblox/DaHoodShazamFly"), true))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Da Hood Animations (PERM)",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/vmx9xMX6"))();
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Anti Chat Logger",
+   Callback = function()
+   loadstring(game:HttpGet('https://pastebin.com/raw/ChqAD1L1'))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Chat Spy",
+   Callback = function()
+   --This script reveals ALL hidden messages in the default chat
+ 
+enabled = true --chat "/spy" to toggle!
+spyOnMyself = true --if true will check your messages too
+public = false --if true will chat the logs publicly (fun, risky)
+publicItalics = true --if true will use /me to stand out
+privateProperties = { --customize private logs
+	Color = Color3.fromRGB(0,255,255); 
+	Font = Enum.Font.SourceSansBold;
+	TextSize = 18;
+}
+ 
+ 
+local StarterGui = game:GetService("StarterGui")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
+local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+local instance = (_G.chatSpyInstance or 0) + 1
+_G.chatSpyInstance = instance
+ 
+local function onChatted(p,msg)
+	if _G.chatSpyInstance == instance then
+		if p==player and msg:lower():sub(1,4)=="/spy" then
+			enabled = not enabled
+			wait(0.3)
+			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+		elseif enabled and (spyOnMyself==true or p~=player) then
+			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+			local hidden = true
+			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+					hidden = false
+				end
+			end)
+			wait(1)
+			conn:Disconnect()
+			if hidden and enabled then
+				if public then
+					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+				else
+					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+				end
+			end
+		end
+	end
+end
+ 
+for _,p in ipairs(Players:GetPlayers()) do
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end
+Players.PlayerAdded:Connect(function(p)
+	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+end)
+privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+if not player.PlayerGui:FindFirstChild("Chat") then wait(3) end
+local chatFrame = player.PlayerGui.Chat.Frame
+chatFrame.ChatChannelParentFrame.Visible = true
+chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Headless & Korblox",
+   Callback = function()
+   loadstring(game:HttpGet('https://pastebin.com/raw/H5yx10Jq'))()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Trash Talk (J)",
+   Callback = function(bool)
+     local plr = game.Players.LocalPlayer
+repeat wait() until plr.Character
+local char = plr.Character
+ 
+local garbage = {
+    "ur bad";
+    "sonney boy";
+    "ez";
+    "my grandma has more skill than you";
+    "seed";
+    "sit son";
+    "trash";
+    "LOL";
+    "LMAO";
+    "imagine being you right now";
+    "xd";
+    "don't try LOL";
+    "you lose";
+    "why do you even try";
+    "I didn't think being this bad was possible";
+    "leave";
+    "no skill";
+    "so sad man.";
+    "bad";
+    "you're nothing";
+    "lol";
+    "so trash";
+    "so bad";
+    "ur salty";
+    "salty";
+    "look he's mad";
+    "cry more";
+    "keep crying";
+    "cry baby";
+    "hahaha I won";
+    "no one likes u";
+    "run 1s seed";
+    "thank you for your time";
+    "you were so close!";
+    "better luck next time!";
+    "rodent";
+    "HAHA";
+    "ill 5-0";
+    "just quit";
+    "time to take out the trash";
+    "did you get worse?";
+    "I'm surprised you haven't quit yet";
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+}
+ 
+ 
+function TrashTalk(inputObject, gameProcessedEvent)
+    if inputObject.KeyCode == Enum.KeyCode.J and gameProcessedEvent == false then        
+game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+        garbage[math.random(1,#garbage)],
+        "All"
+    )
+    end
+end
+ 
+game:GetService("UserInputService").InputBegan:connect(TrashTalk)
+   end,
+})
+
+
+-- TAB 2
+local Section = Tab2:CreateSection("COMING SOON!")
+
+
+
+
+-- TAB 3
+local Section = Tab3:CreateSection("HAX Teleports")
+local Section = Tab3:CreateSection("Places")
+
+
+local Button = Tab3:CreateButton({
+   Name = "Bank",
+   Callback = function(value)
+    getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-402.123718, 21.75, -283.988617, 0.0159681588, -0.000121377925, -0.999872446, -2.60148026e-05, 1, -0.000121808866, 0.999872506, 2.79565484e-05, 0.0159681737)
+   end,
+})
+
+
+local Button = Tab3:CreateButton({
+   Name = "Casino",
+   Callback = function(value)
+   getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-962.72345, 21.2549973, -186.814987, -0.0274876002, 2.91178949e-05, 0.999621451, -5.5798846e-06, 1, -2.92823333e-05, -0.999621451, -6.38268148e-06, -0.0274876002)
+   end,
+})
+
+
+local Section = Tab3:CreateSection("Guns/Armor/Food")
+
+
+local Button = Tab3:CreateButton({
+   Name = "Double Barrel",
+   Callback = function(value)
+    getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1039.59985, 18.8513641, -256.449951, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+
+local Button = Tab3:CreateButton({
+   Name = "Shotgun",
+   Callback = function(value)
+     getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-578.623657, 5.47212696, -725.131531, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+   end,
+})
+
+
+
+local Button = Tab3:CreateButton({
+   Name = "Revolver",
+   Callback = function(value)
+    getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-638.75, 18.8500004, -118.175011, -1, 0, 0, 0, 1, 0, 0, 0, -1)
+   end,
+})
+
+
+local Button = Tab3:CreateButton({
+   Name = "Armor",
+   Callback = function(value)
+   getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-607.978455, 7.44964886, -788.494263, -1.1920929e-07, 0, 1.00000012, 0, 1, 0, -1.00000012, 0, -1.1920929e-07)
+   end,
+})
+
+
+local Button = Tab3:CreateButton({
+   Name = "Food",
+   Callback = function(value)
+    getgenv().game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-338.352173, 23.6826477, -297.2146, -0.0060598203, -1.03402984e-08, -0.999981582, -1.61653102e-09, 1, -1.03306892e-08, 0.999981582, 1.55389912e-09, -0.0060598203)
+   end,
+})
+
+
+
+-- TAB 4
+
+local Section = Tab4:CreateSection("HAX Settings")
+
+
+local Button = Tab4:CreateButton({
+   Name = "Anti Lag",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/K8tGje13"))()
+   end,
+})
+
+
+local Button = Tab4:CreateButton({
+   Name = " SUPER Low GFX",
+   Callback = function()
+   --This Script makes every part low quality and deletes every decal
+--use it for low end devices
+--paste into your executor and execute
+-- you can also deativate the shadows
+
+
+
+local lightning = game:GetService("Lighting")
+
+
+      --lightning.GlobalShadows = false --optional  
+        for i,v in pairs(workspace:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.Material = Enum.Material.Plastic
+            end
+        end
+        local Model = workspace
+        local ClassTypes = {
+            "Decal",
+            "Texture"
+        }
+    
+        for _, v in ipairs(workspace:GetDescendants()) do
+            if table.find(ClassTypes, v.ClassName) then
+                print(v.ClassName)
+                v:Destroy()
+            end
+        end
+   end,
+})
