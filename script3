@@ -1,0 +1,320 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "(STFO) HAXHUB ",
+   LoadingTitle = "HAXHUB Paid Edition.",
+   LoadingSubtitle = "by HaxNas",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = hax, -- Create a custom folder for your hub/game
+      FileName = "hax hub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "discord.gg/haxscripts", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "HAXHUB Key System",
+      Subtitle = "Need Key!",
+      Note = "Purchase From Discord!",
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"pkwDDWKadanopNODNWAOP", "hcnDSIJCns"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+
+
+local Tab = Window:CreateTab("MAIN", 12684121195) -- Title, Image
+
+
+
+
+-- TAB 1
+local Section = Tab:CreateSection("HAX Features")
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = " OP Reach (Q Higher E Lower)",
+   Callback = function()
+     _G.Reach = "12"
+_G.KeyBindHigher = "q"
+_G.KeyBindLower = "e"
+_G.ReachOff = false -- Set this to true if you want to disable the reach but would you really want to?
+ 
+game:GetService"RunService".Stepped:Connect(function()
+    if _G.ReachOff then return end  
+    pcall(function()
+      Sword = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle
+        for i,v in pairs(game.Players:GetPlayers()) do 
+            if v ~= game.Players.LocalPlayer and v.Character:FindFirstChild("Left Arm") then
+             if (game.Players.LocalPlayer.Character.Torso.Position - v.Character.Torso.Position).Magnitude <= _G.Reach then
+                   v.Character['Left Arm']:BreakJoints()
+                   v.Character['Left Arm'].Transparency = 1
+                   v.Character['Left Arm'].CanCollide = false
+                   v.Character['Left Arm'].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(1,0,-3.5)
+                   v.Character['Left Leg']:BreakJoints()
+                   v.Character['Left Leg'].Transparency = 1
+                   v.Character['Left Leg'].CanCollide = false
+                   v.Character['Left Leg'].CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(1,0,-3.5)
+               end
+           end
+       end
+    end)
+end)
+ 
+local Mouse = game.Players.LocalPlayer:GetMouse()
+    Mouse.KeyDown:Connect(function(key)
+        if key == _G.KeyBindHigher then
+                 _G.Reach = _G.Reach + 1 
+            	 game.StarterGui:SetCore("SendNotification", {
+                 Title = "Reach";
+                 Text = "Reach set to " .. _G.Reach;
+                 Icon = "";
+                 Duration = 1;})
+             end
+          end)
+ 
+ 
+     local Mouse = game.Players.LocalPlayer:GetMouse()
+    Mouse.KeyDown:Connect(function(key)
+        if key == _G.KeyBindLower then
+                 _G.Reach = _G.Reach - 1 
+            	 game.StarterGui:SetCore("SendNotification", {
+                 Title = "Reach";
+                 Text = "Reach set to " .. _G.Reach;
+                 Icon = "";
+                 Duration = 1;})
+             end
+          end)
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "NoClip",
+   Callback = function()
+   local Noclip = nil
+local Clip = nil
+
+function noclip()
+	Clip = false
+	local function Nocl()
+		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+					v.CanCollide = false
+				end
+			end
+		end
+		wait(0.21) -- basic optimization
+	end
+	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+function clip()
+	if Noclip then Noclip:Disconnect() end
+	Clip = true
+end
+
+noclip() -- to toggle noclip() and clip()
+   end,
+})
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Fling Someone (Unstoppable)",
+   Callback = function()
+   loadstring(game:HttpGet('https://pastebin.com/raw/NhAM1xsi'))()
+   end,
+})
+
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Tp To Player",
+   Callback = function()
+local CoreGui = game:GetService("StarterGui")
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local TextButton = Instance.new("TextButton")
+local DeleteButton = Instance.new("TextButton")
+local UICorner_Frame = Instance.new("UICorner")
+local UICorner_TextBox = Instance.new("UICorner")
+local UICorner_TextButton = Instance.new("UICorner")
+local UICorner_DeleteButton = Instance.new("UICorner")
+
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ResetOnSpawn = false
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Frame.BackgroundTransparency = 0.40
+Frame.Position = UDim2.new(0.05, 0, 0.1, 0)
+Frame.Size = UDim2.new(0, 200, 0, 150)
+Frame.Active = true
+Frame.Draggable = true
+
+UICorner_Frame.Parent = Frame
+UICorner_Frame.CornerRadius = UDim.new(0, 16)
+
+
+TextBox.Parent = Frame
+TextBox.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+TextBox.Position = UDim2.new(0.07, 0, 0.10, 0)
+TextBox.Size = UDim2.new(0, 175, 0, 50)
+TextBox.Font = Enum.Font.Cartoon
+TextBox.Text = "Enter a Username"
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 16.000
+TextBox.TextWrapped = true
+
+UICorner_TextBox.Parent = TextBox
+UICorner_TextBox.CornerRadius = UDim.new(0, 32)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+TextButton.Position = UDim2.new(0.07, 0, 0.50, 0)
+TextButton.Size = UDim2.new(0, 175, 0, 35)
+TextButton.Font = Enum.Font.Cartoon
+TextButton.Text = "Teleport To Player"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 16.00
+TextButton.TextWrapped = true
+
+UICorner_TextButton.Parent = TextButton
+UICorner_TextButton.CornerRadius = UDim.new(0, 32)
+
+DeleteButton.Parent = Frame
+DeleteButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+DeleteButton.Position = UDim2.new(-0.19, 0, 0, 0)
+DeleteButton.Size = UDim2.new(0, 40, 0, 40)
+DeleteButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+DeleteButton.Font = Enum.Font.Cartoon
+DeleteButton.Text = "x"
+DeleteButton.TextSize = 50.000
+DeleteButton.TextScaled = true
+DeleteButton.TextWrapped = true
+
+UICorner_DeleteButton.Parent = DeleteButton
+UICorner_DeleteButton.CornerRadius = UDim.new(0,8)
+
+DeleteButton.MouseButton1Click:connect(function()
+    ScreenGui:Destroy()
+end)
+
+TextButton.MouseButton1Click:connect(function()
+local lplayer = game:GetService('Players').LocalPlayer
+
+local yeeting = false
+function GetPlayer(String)
+local Found = {}
+local strl = String:lower()
+if strl == "all" then
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+table.insert(Found,v)
+end
+elseif strl == "Random" then
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v.Name ~= lplayer.Name then
+table.insert(Found,v)
+end
+end 
+elseif strl == "me" then
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v.Name == lplayer.Name then
+table.insert(Found,v)
+end
+end 
+else
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do
+if v.Name:lower():sub(1, #String) == String:lower() then
+table.insert(Found,v)
+end
+end 
+end
+return Found 
+end
+function ahh(thing)
+local asd = {'yeet','gui','yeet gui'}
+local f = string.upper(asd[math.random(1,#asd)])
+return f
+end
+
+local target = unpack(GetPlayer(TextBox.Text)).Character
+ 
+game:GetService'Players'.LocalPlayer.Character.HumanoidRootPart.CFrame = target.Head.CFrame;coin.Location = target.head.Position game["Run Service"].Heartbeat:wait()
+end)
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "FPS Booster",
+   Callback = function()
+   _G.Ignore = {}
+_G.Settings = {
+	Players = {
+		["Ignore Me"] = true,
+		["Ignore Others"] = true,
+		["Ignore Tools"] = true
+	},
+	Meshes = {
+		NoMesh = false,
+		NoTexture = false,
+		Destroy = false
+	},
+	Images = {
+		Invisible = true,
+		Destroy = false
+	},
+	Explosions = {
+		Smaller = true,
+		Invisible = false, -- Not for PVP games
+		Destroy = false -- Not for PVP games
+	},
+	Particles = {
+		Invisible = true,
+		Destroy = false
+	},
+	TextLabels = {
+		LowerQuality = true,
+		Invisible = false,
+		Destroy = false
+	},
+	MeshParts = {
+		LowerQuality = true,
+		Invisible = false,
+		NoTexture = false,
+		NoMesh = false,
+		Destroy = false
+	},
+	Other = {
+		["FPS Cap"] = 360, -- true to uncap
+		["No Camera Effects"] = true,
+		["No Clothes"] = true,
+		["Low Water Graphics"] = true,
+		["No Shadows"] = true,
+		["Low Rendering"] = true,
+		["Low Quality Parts"] = true,
+		["Low Quality Models"] = true,
+		["Reset Materials"] = true,
+	}
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+   end,
+})
