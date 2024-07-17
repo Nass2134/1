@@ -5,3 +5,7 @@ end
 if game.PlaceId == 2788229376 then --DA HOOD
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script2'))()
 end
+
+if game.PlaceId == 10191847911 then --STFO
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/script3'))()
+end
