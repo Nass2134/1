@@ -1,0 +1,191 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "(REALISTIC BASKETBALL) HAXHUB ",
+   LoadingTitle = "HAXHUB Paid Edition.",
+   LoadingSubtitle = "by HaxNas",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = hax, -- Create a custom folder for your hub/game
+      FileName = "hax hub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "discord.gg/haxscripts", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "HAXHUB Key System",
+      Subtitle = "Need Key!",
+      Note = "Purchase From Discord!",
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"pkwDDWKadanopNODNWAOP", "hcnDSIJCns"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+
+
+local Tab = Window:CreateTab("Main", 4483362458)
+local Tab1 = Window:CreateTab("Player", 4483362458)
+
+
+
+local Section = Tab:CreateSection("HAX Features")
+
+
+local plr = game:GetService("Players").LocalPlayer
+local character = plr.Character or plr.CharacterAdded:Wait() 
+local uis = game:GetService("UserInputService")
+local findCourt
+local bb
+local updatingCourtMsg = true
+local bm = false
+local ag = false
+local autoGreen = false
+local sh = false
+local speed = false
+local speedamnt; 
+local deb = false
+task.spawn(function()
+--update court
+while task.wait(5) do 
+    if updatingCourtMsg == true then
+    lib:MakeNotification({
+    Name = "Realistic Hoops";
+    Content = "Updating Current Court";
+    Time = 4; 
+    })
+    end 
+     for i, v in pairs(game:GetService("Workspace"):FindFirstChild("Courts"):GetDescendants()) do 
+       if v.Name == "Player1" and v.Value == plr.Name or v.Name == "Player2" and v.Value == plr.Name or v.Name == "Player3" and v.Value == plr.Name or v.Name == "Player4" and v.Value == plr.Name or v.Name == "Player5" and v.Value == plr.Name or v.Name == "Player6" and v.Value == plr.Name then 
+          findCourt = v.Parent.Parent 
+          bb = findCourt:FindFirstChild("Basketball")
+          if findCourt then warn("Court Found".." ".. findCourt.Name) end 
+          if bb then warn("Basketball found") end 
+       end 
+    end
+  end 
+end) 
+
+
+
+
+local Toggle = Tab:CreateToggle({
+   Name = "AutoGreen",
+   CurrentValue = false,
+   Flag = "Toggle3", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(v)
+        autoGreen = v
+      print(autoGreen)
+          if autoGreen == true then
+              uis.InputBegan:Connect(function(i, g)
+                  if g then return end 
+                  if i.KeyCode == Enum.KeyCode.Q and autoGreen == true then 
+                     local args = {
+                    [1] = true,
+                    [2] = 100,
+                    [4] = false,
+                    [5] = false
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Shoot"):FireServer(unpack(args))
+                    local args = {
+                    [1] = false,
+                    [2] = -1,
+                    [3] = true
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Shoot"):FireServer(unpack(args))
+                  end 
+              end)
+         end 
+   end,
+})
+
+
+local Toggle = Tab:CreateToggle({
+   Name = "Bigger Ball Hitbox",
+   CurrentValue = false,
+   Flag = "Toggle4", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(v)
+    sh = v 
+    print(sh) 
+        while sh == true do 
+        task.wait()
+        local basketball = findCourt:FindFirstChild("Basketball")
+        if sh == true then 
+        basketball.Size = Vector3.new(6,6,6)
+        elseif sh == false then 
+        basketball.Size = Vector3.new(1,1,1)
+        end 
+    end  
+   end,
+})
+
+
+
+
+local Toggle = Tab:CreateToggle({
+   Name = "AutoGuard",
+   CurrentValue = false,
+   Flag = "Toggle2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(v)
+      ag = v 
+      print(ag)
+      if ag == true then 
+         local basketball = findCourt:FindFirstChild("Basketball") 
+         print(basketball:FindFirstChild("Player").Value)
+         while ag == true do 
+         task.wait()
+            if basketball:FindFirstChild("Player").Value == nil or basketball:FindFirstChild("Player").Value == plr then 
+               warn("Ball is nil or in your hands")
+           else
+           character.HumanoidRootPart.CFrame = basketball:FindFirstChild("Player").Value.Character:FindFirstChild("HumanoidRootPart").CFrame + Vector3.new(3, 0, 0)
+           end 
+         end 
+      end 
+   end,
+})
+
+
+
+local Toggle = Tab:CreateToggle({
+   Name = "Ball Magnet",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(v)
+   bm = v 
+      print(v, bm)
+      if bm == true then 
+         local basketball = findCourt:FindFirstChild("Basketball")
+           if basketball then 
+              basketball:FindFirstChild("PickUpEnabled"):GetPropertyChangedSignal("Value"):Connect(function()
+                  if basketball:FindFirstChild("Reboundable").Value == true and basketball:FindFirstChild("PickUpEnabled").Value == true and bm == true then 
+                  task.wait(0.5)
+                    print("attempting rebound")
+                    character:FindFirstChild("HumanoidRootPart").CFrame = basketball.CFrame;
+                end 
+              end)
+         end 
+      end 
+   end,
+})
+
+
+--TAB 2
+
+
+local Section = Tab1:CreateSection("HAX Features")
+
+local Slider = Tab1:CreateSlider({
+   Name = "Walkspeed",
+   Range = {16, 100},
+   Increment = 1,
+   Suffix = "WalkSpeed",
+   CurrentValue = 0,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(ws)
+   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = ws
+   end,
+})
