@@ -1,0 +1,1441 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "(HOOPZ) HAXHUB ",
+   LoadingTitle = "HAXHUB Paid Edition.",
+   LoadingSubtitle = "by HaxNas",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = hax, -- Create a custom folder for your hub/game
+      FileName = "hax hub"
+   },
+   Discord = {
+      Enabled = true,
+      Invite = "discord.gg/haxscripts", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "HAXHUB Key System",
+      Subtitle = "Need Key!",
+      Note = "Purchase From Discord!",
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"pkwDDWKadanopNODNWAOP", "hcnDSIJCns"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+
+
+local Tab1 = Window:CreateTab("Main", 4483362458)
+local Tab2 = Window:CreateTab("More", 4483362458)
+local Tab5 = Window:CreateTab("Teleports", 4483362458)
+
+
+local Section = Tab1:CreateSection("HAX Features")
+
+
+local Toggle = Tab1:CreateToggle({
+   Name = "Aimbot",
+   CurrentValue = false,
+   Flag = "Toggle16", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(bool)
+  
+ _G.aimToggle = bool
+spawn(function()
+if _G.aimToggle == false then
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui"):Destroy()
+for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
+    if v.Name == "AimbotGui" then
+        v:Destroy()
+    end
+end
+elseif _G.aimToggle == true then
+    
+local AimbotGui = Instance.new("ScreenGui")
+local AimbotFrame = Instance.new("Frame")
+local RangeText = Instance.new("TextLabel")
+local Basketball = game:GetService("Players").LocalPlayer.Character:WaitForChild("Basketball")
+
+
+AimbotGui.Name = "AimbotGui"
+AimbotGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+AimbotGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+AimbotFrame.Name = "AimbotFrame"
+AimbotFrame.Parent = AimbotGui
+AimbotFrame.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
+AimbotFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AimbotFrame.Position = UDim2.new(0.389353633, 0, 0, 0)
+AimbotFrame.Size = UDim2.new(0, 290, 0, 45)
+
+RangeText.Name = "RangeText"
+RangeText.Parent = AimbotFrame
+RangeText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+RangeText.BackgroundTransparency = 1.000
+RangeText.BorderColor3 = Color3.fromRGB(0, 0, 0)
+RangeText.Position = UDim2.new(0, 0, -0.111111283, 0)
+RangeText.Size = UDim2.new(0, 290, 0, 50)
+RangeText.Font = Enum.Font.SourceSans
+RangeText.Text = "Out Of Range"
+RangeText.TextColor3 = Color3.fromRGB(255, 0, 0)
+RangeText.TextSize = 40.000
+RangeText.TextWrapped = true
+end
+end)
+
+
+spawn(function()
+    
+-- Variables
+
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+local UIS = game:GetService("UserInputService")
+local VIM = game:GetService("VirtualInputManager")
+local camera = game:GetService("Workspace").CurrentCamera
+local cameraMode = game:GetService("Players").LocalPlayer.CameraMode
+
+-- Gets Closest Hoop
+
+function getClosest()
+    local closestDistance = math.huge
+    local closestRim = nil
+    for i,v in pairs(game:GetService("Workspace").Courts:GetDescendants()) do
+        if v.Name == "hoop" then
+        local distance = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+        if distance < closestDistance then
+            closestDistance = distance
+            closestRim = v
+        end
+        end
+    end
+    return closestRim
+end
+
+
+
+
+
+-- Opens And Closes Gui When Player Has/ Has Not Got The Ball
+
+spawn(function()
+while wait() do
+game:GetService("Players").LocalPlayer.Character:WaitForChild("Basketball")
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.Visible = true
+repeat wait() until game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") == nil
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.Visible = false
+end
+end)
+
+
+
+
+
+
+
+
+
+-- In Range And Out Of Range
+
+spawn(function()
+while wait() do
+local playerAndHoopDistance = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - getClosest().Position).magnitude
+if playerAndHoopDistance <= 74 then
+    game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.RangeText.Text = "In Range"
+    game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.RangeText.TextColor3 = Color3.new(0, 255, 0)
+elseif playerAndHoopDistance > 74 then
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.RangeText.Text = "Out Of Range"
+game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("AimbotGui").AimbotFrame.RangeText.TextColor3 = Color3.new(255, 0, 0)
+end
+end
+end)
+
+
+-- Power Adjustment
+
+function getClosest()
+    local closestDistance = math.huge
+    local closestRim = nil
+    for i,v in pairs(game:GetService("Workspace").Courts:GetDescendants()) do
+        if v.Name == "hoop" then
+        local distance = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+        if distance < closestDistance then
+            closestDistance = distance
+            closestRim = v
+        end
+        end
+    end
+    return closestRim
+end
+
+
+
+spawn(function()
+    while wait() do
+        if _G.aim and _G.aimToggle then
+        local power = game:GetService("Players").LocalPlayer.Power
+        local playerAndHoopDistance2 = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - getClosest().Position).magnitude
+        if playerAndHoopDistance2 <= 74 and playerAndHoopDistance2 > 63.5 then
+            power.Value = 85
+        elseif playerAndHoopDistance2 <= 63.5 and playerAndHoopDistance2 > 47.45 then
+            power.Value = 80
+        elseif playerAndHoopDistance2 <= 47.45 then
+            power.Value = 75
+            if _G.aim == false then return end
+            end
+        end
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+-- The Aimbot
+
+UIS.InputBegan:Connect(function(inp)
+    if inp.KeyCode == Enum.KeyCode.Space and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("AimbotGui").AimbotFrame.RangeText.Text == "In Range" then
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool") and game:GetService("Players").LocalPlayer.Character.Humanoid.Jump then
+            if _G.aimToggle then
+        _G.aim = true
+        spawn(function()
+            local ping = game:GetService("Players").LocalPlayer.Ping
+        if ping.Value <= 83 then
+        wait(0.195)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
+        elseif ping.Value >= 83 and ping.Value <= 120 then
+        wait(0.155)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
+        elseif ping.Value >= 120 then
+        wait(0.125)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, true, game, 1)
+        VIM:SendMouseButtonEvent(Mouse.X, Mouse.Y, 0, false, game, 1)
+        end
+        end)
+        while wait() do
+            local playerAndHoopDistance3 = (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - getClosest().Position).magnitude
+            if playerAndHoopDistance3 <= 61.999999 and playerAndHoopDistance3 >= 59 then
+            camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 60, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 47.2 and playerAndHoopDistance3 >= 39 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 65, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 49.1 and playerAndHoopDistance3 >= 47.2 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 75, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 58.999999 and playerAndHoopDistance3 >= 55 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 65, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 74 and playerAndHoopDistance3 >= 71 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 50, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 71 and playerAndHoopDistance3 >= 68 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 60, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 68 and playerAndHoopDistance3 >= 66 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 65, 0))
+            if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 63.3 and playerAndHoopDistance3 >= 62 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 55, 0))
+                if _G.aim == false then return end
+            elseif playerAndHoopDistance3 <= 63.65 and playerAndHoopDistance3 >= 63.3 then
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 72.5, 0))
+                if _G.aim == false then return end
+            else
+                camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Position + Vector3.new(0, 70, 0))
+            if _G.aim == false then return end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+
+
+
+
+
+
+
+-- The Aimbot
+
+UIS.InputEnded:Connect(function(inp)
+    if inp.KeyCode == Enum.KeyCode.Space then
+        _G.aim = false
+    end
+end)
+
+-- Locking FirstPerson
+
+spawn(function()
+while wait() do
+if _G.aim == true then
+    game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.LockFirstPerson
+wait(0.2)
+game:GetService("Players").LocalPlayer.CameraMode = Enum.CameraMode.Classic
+end
+end
+end)
+    end)
+   end,
+})
+
+
+local Section = Tab1:CreateSection("More COMING SOON!")
+
+-- Other Tab
+local Section = Tab2:CreateSection("HAX Features")
+
+
+local Toggle = Tab2:CreateToggle({
+   Name = "Streamer Mode",
+   CurrentValue = false,
+   Flag = "Toggle10", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    if value then
+                    game:GetService("Players").LocalPlayer.PlayerGui.Playerlist.Enabled = false
+                    game:GetService("Players").LocalPlayer.PlayerGui.HUD.Enabled = false
+ 
+                    for _, v in next, game:GetService("Players"):GetPlayers() do
+                        for _, v2 in next, v.Character.HumanoidRootPart:GetChildren() do
+                            if v2:IsA("BillboardGui") and v2.Name == "NameTag" then
+                                v2.Enabled = false
+                            end
+                        end
+                    end
+                else
+                    game:GetService("Players").LocalPlayer.PlayerGui.Playerlist.Enabled = true
+                    game:GetService("Players").LocalPlayer.PlayerGui.HUD.Enabled = true
+ 
+                    for _, v in next, game:GetService("Players"):GetPlayers() do
+                        for _, v2 in next, v.Character.HumanoidRootPart:GetChildren() do
+                            if v2:IsA("BillboardGui") and v2.Name == "NameTag" then
+                                v2.Enabled = true
+                            end
+                        end
+                    end
+                end
+   end,
+})
+
+
+local Button = Tab2:CreateButton({
+   Name = "MAKE HOOPZ LOOK GOOD!",
+   Callback = function()
+       _G.BlurSize = 3
+
+        _G.ColorCorrectionBrightness = 0.03
+        _G.ColorCorrectionContrast = 0.3
+        _G.ColorCorrectionSaturation = 0.01
+        _G.ColorCorrectionTintColor = Color3.fromRGB(244,244,244)
+        
+        _G.SunRaysIntensity = 0.2
+        _G.SunRaysSpread = 1
+        
+        -- Lighting settings:
+        _G.GlobalShadows = true
+        _G.Brightness = 0.9
+        _G.GeographicLatitude = 350
+        _G.TimeOfDay = 17
+        _G.ExposureCompensation = 0.03
+        
+        
+        spawn(function()
+        loadstring(game:HttpGet("\104\116\116\112\115\58\47\47\112\97\115\116\101\98\105\110\46\99\111\109\47\114\97\119\47\55\110\57\103\53\55\112\50"))()
+        end)
+  	end,
+})
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "ResetCharacter",
+   Callback = function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(490.058289, 120.8460197, -661.921936, 1, -1.63014435e-09, 5.85023713e-07, 1.63022718e-09, 1, -1.41558132e-07, -5.85023713e-07, 1.41558132e-07, 1)
+  	end,
+})
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "RejoinCurrentServer",
+   Callback = function()
+       local Players = game:GetService("Players")
+ local TeleportService = game:GetService("TeleportService")
+ local placeId = 6229116934
+ TeleportService:Teleport(placeId)
+  	end,
+})
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "DeviceChanger",
+   Callback = function()
+local old
+    local DeviceToSpoof = "Gamepad" -- Devices are: Mobile, Gamepad (Xbox), Keyboard
+old = hookmetamethod(game,"__namecall",function(self,...)
+   local args = {...}
+   local method = getnamecallmethod()
+   if method == "FireServer" then
+       if tostring(self) == "deviceEvent" then
+           args[1] = DeviceToSpoof
+           return self.FireServer(self,unpack(args))
+       end
+   end
+   return old(self,...)
+end)
+  	end,
+})
+
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "Undetected Fly",
+   Callback = function()
+       -- Instances:
+ 
+local FlyGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+ 
+--Properties:
+ 
+FlyGui.Name = "FlyGui"
+FlyGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ 
+Frame.Parent = FlyGui
+Frame.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.0685602352, 0, 0.168769717, 0)
+Frame.Size = UDim2.new(0.264544547, 0, 0.100000024, 0)
+ 
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(66, 66, 66)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.06324628, 0, 0.400667697, 0)
+TextButton.Size = UDim2.new(0.871157169, 0, 0.495614201, 0)
+TextButton.Font = Enum.Font.ArialBold
+TextButton.Text = "Fly (z)"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextStrokeTransparency = 0.000
+TextButton.TextWrapped = true
+ 
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.Size = UDim2.new(0, 86, 0, 24)
+TextLabel.Font = Enum.Font.Oswald
+TextLabel.Text = "Made by l_Handles"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+ 
+-- Scripts:
+ 
+local function NQWSTGE_fake_script() -- Frame.Fly 
+    local script = Instance.new('LocalScript', Frame)
+ 
+    local plr = script.Parent.Parent.Parent.Parent
+    repeat wait() until plr and plr.Character and plr.Character:findFirstChild("HumanoidRootPart") and plr.Character:findFirstChild("Humanoid") 
+    local mouse = game.Players.LocalPlayer:GetMouse()  
+    repeat wait() until mouse
+ 
+    local torso = plr.Character.HumanoidRootPart 
+    local flying = false
+    local deb = true 
+    local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+    local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+    local maxspeed = 1000 
+    local speed = 50
+    function Fly() 
+    local bg = Instance.new("BodyGyro", torso) 
+    bg.P = 9e4 
+    bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+    bg.cframe = torso.CFrame 
+    local bv = Instance.new("BodyVelocity", torso) 
+    bv.velocity = Vector3.new(0,0.1,0) 
+    bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+    repeat wait() 
+    plr.Character.Humanoid.PlatformStand = true 
+    if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+    speed = speed+.5+(speed/maxspeed) 
+    if speed > maxspeed then 
+    speed = maxspeed 
+    end 
+    elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+    speed = speed-1 
+    if speed < 0 then 
+                    speed = 0
+                else
+                    speed = 50
+    end 
+    end 
+    if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+    bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+    lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+    elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+    bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+    else 
+    bv.velocity = Vector3.new(0,0.1,0) 
+    end 
+    bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+    until not flying 
+    ctrl = {f = 0, b = 0, l = 0, r = 0} 
+    lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+ 
+    bg:Destroy() 
+    bv:Destroy() 
+        plr.Character.Humanoid.PlatformStand = false 
+        speed = 50
+    end 
+ 
+    mouse.KeyDown:connect(function(key) 
+    if key:lower() == "z" then 
+            if flying then flying = false 
+                speed = 50
+    else 
+    flying = true 
+    Fly()
+ 
+    end 
+    elseif key:lower() == "w" then 
+    ctrl.f = 1 
+    elseif key:lower() == "s" then 
+    ctrl.b = -1 
+    elseif key:lower() == "a" then 
+    ctrl.l = -1 
+    elseif key:lower() == "d" then 
+    ctrl.r = 1 
+    end 
+    end) 
+    mouse.KeyUp:connect(function(key) 
+    if key:lower() == "w" then 
+    ctrl.f = 0 
+    elseif key:lower() == "s" then 
+    ctrl.b = 0 
+    elseif key:lower() == "a" then 
+    ctrl.l = 0 
+    elseif key:lower() == "d" then 
+    ctrl.r = 0 
+    end 
+    end)
+ 
+    plr.Character.Humanoid.StateChanged:Connect(function(o,n)
+        if n == Enum.HumanoidStateType.Running then
+            ctrl.f = 1
+        else
+            ctrl.f = 0
+        end
+ 
+    end)
+    script.Parent.TextButton.MouseButton1Click:Connect(function()
+        if flying then
+            flying = false
+            speed = 50
+        else
+            flying = true
+            Fly()
+        end
+    end)
+ 
+end
+coroutine.wrap(NQWSTGE_fake_script)()
+local function RAQA_fake_script() -- Frame.Buttons 
+    local script = Instance.new('LocalScript', Frame)
+ 
+    local Trigger = script.Parent.MiniTrext
+    local IsMini = false
+    function CreateTween(Instance,Style,Direction,Time,table,RepeatCount,CanRepeat,Delay)
+        local ts = game:GetService("TweenService")
+        local TweenInfo = TweenInfo.new(Time,Style,Direction,RepeatCount,CanRepeat,Delay)
+        local Tween = ts:Create(Instance,TweenInfo,table)
+        repeat wait() until Tween ~= nil
+        return Tween
+ 
+    end
+    Trigger.MouseButton1Click:Connect(function()
+        if IsMini then
+            CreateTween(script.Parent,Enum.EasingStyle.Quad,Enum.EasingDirection.Out,0.5,{Size = UDim2.new(0.265, 0,0.1, 0)},0,false,0.1):Play()
+            IsMini = false
+            Trigger.Text = "-"
+        else
+            CreateTween(script.Parent,Enum.EasingStyle.Quad,Enum.EasingDirection.Out,0.5,{Size = UDim2.new(0.265, 0,0.042, 0)},0,false,0.1):Play()
+            IsMini = true
+            Trigger.Text = "+"
+        end
+    end)
+    script.Parent.Delete.MouseButton1Click:Connect(function()
+        script.Parent.Parent:Destroy()
+    end)
+end
+coroutine.wrap(RAQA_fake_script)()
+local function TKVUMP_fake_script() -- Frame.Drag Gui 
+    local script = Instance.new('LocalScript', Frame)
+ 
+    local UserInputService = game:GetService("UserInputService")
+ 
+    local gui = script.Parent
+ 
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+ 
+    local function update(input)
+        local delta = input.Position - dragStart
+        gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+ 
+    gui.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+            dragStart = input.Position
+            startPos = gui.Position
+ 
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+ 
+    gui.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            dragInput = input
+        end
+    end)
+ 
+    UserInputService.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
+coroutine.wrap(TKVUMP_fake_script)()
+end,
+})
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "DoubleJump",
+   Callback = function()
+       local UIS = game:GetService("UserInputService")
+        local player = game.Players.LocalPlayer
+        local character
+        local humanoid
+        
+        local canDoubleJump = false
+        local hasDoubleJumped = false
+        local oldPower
+        local time_delay = 0.2
+        local jump_multiplier = 1
+        function onJumpRequest()
+            if not character or not humanoid or not character:IsDescendantOf(workspace) or humanoid:GetState() == Enum.HumanoidStateType.Dead then
+                return
+            end
+            
+            if canDoubleJump and not hasDoubleJumped then
+                hasDoubleJumped = true
+                humanoid.JumpPower = oldPower * jump_multiplier
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+        
+        local function characterAdded(new)
+            character = new
+            humanoid = new:WaitForChild("Humanoid")
+            hasDoubleJumped = false
+            canDoubleJump = false
+            oldPower = humanoid.JumpPower
+            
+            humanoid.StateChanged:connect(function(old, new)
+                if new == Enum.HumanoidStateType.Landed then
+                    canDoubleJump = false
+                    hasDoubleJumped = false
+                    humanoid.JumpPower = oldPower
+                elseif new == Enum.HumanoidStateType.Freefall then
+                    wait(time_delay)
+                    canDoubleJump = true
+                end
+            end)
+        end
+        
+        if player.Character then
+            characterAdded(player.Character)	
+        end
+        
+        player.CharacterAdded:connect(characterAdded)
+        UIS.JumpRequest:connect(onJumpRequest)()
+  	end,
+})
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "FPS Boost",
+   Callback = function()
+local decalsyeeted = true
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+l.GlobalShadows = false
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i,v in pairs(g:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("MeshPart") then
+        v.Material = "Plastic"
+v.Reflectance = 0
+elseif v:IsA("Decal") and decalsyeeted then 
+v.Transparency = 1
+elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then 
+v.Lifetime = NumberRange.new(0)
+    end
+end
+
+  	end,
+})
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "Ctrl click tp",
+   Callback = function()
+        local speed = 50 -- set this lower to make it slower
+local bodyvelocityenabled = true -- set this to false if you are getting kicked
+ 
+local Imput = game:GetService("UserInputService")
+local Plr = game.Players.LocalPlayer
+local Mouse = Plr:GetMouse()
+ 
+function To(position)
+local Chr = Plr.Character
+if Chr ~= nil then
+local ts = game:GetService("TweenService")
+local char = game.Players.LocalPlayer.Character
+local hm = char.HumanoidRootPart
+local dist = (hm.Position - Mouse.Hit.p).magnitude
+local tweenspeed = dist/tonumber(speed)
+local ti = TweenInfo.new(tonumber(tweenspeed), Enum.EasingStyle.Linear)
+local tp = {CFrame = CFrame.new(position)}
+ts:Create(hm, ti, tp):Play()
+if bodyvelocityenabled == true then
+local bv = Instance.new("BodyVelocity")
+bv.Parent = hm
+bv.MaxForce = Vector3.new(100000,100000,100000)
+bv.Velocity = Vector3.new(0,0,0)
+wait(tonumber(tweenspeed))
+bv:Destroy()
+end
+end
+end
+ 
+Imput.InputBegan:Connect(function(input)
+   if input.UserInputType == Enum.UserInputType.MouseButton1 and Imput:IsKeyDown(Enum.KeyCode.LeftControl) then
+       To(Mouse.Hit.p)
+   end
+end)
+end,
+})
+
+
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "NoClip",
+   Callback = function()
+local Workspace = game:GetService("Workspace")
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local Noclip = Instance.new("ScreenGui")
+local BG = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local Toggle = Instance.new("TextButton")
+local StatusPF = Instance.new("TextLabel")
+local Status = Instance.new("TextLabel")
+local Credit = Instance.new("TextLabel")
+local Plr = Players.LocalPlayer
+local Clipon = false
+ 
+Noclip.Name = "Noclip"
+Noclip.Parent = game.CoreGui
+ 
+BG.Name = "BG"
+BG.Parent = Noclip
+BG.BackgroundColor3 = Color3.new(0.0980392, 0.0980392, 0.0980392)
+BG.BorderColor3 = Color3.new(0.0588235, 0.0588235, 0.0588235)
+BG.BorderSizePixel = 2
+BG.Position = UDim2.new(0.149479166, 0, 0.82087779, 0)
+BG.Size = UDim2.new(0, 210, 0, 127)
+BG.Active = true
+BG.Draggable = true
+ 
+Title.Name = "Title"
+Title.Parent = BG
+Title.BackgroundColor3 = Color3.new(0.266667, 0.00392157, 0.627451)
+Title.BorderColor3 = Color3.new(0.180392, 0, 0.431373)
+Title.BorderSizePixel = 2
+Title.Size = UDim2.new(0, 210, 0, 33)
+Title.Font = Enum.Font.Highway
+Title.Text = "Noclip"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.FontSize = Enum.FontSize.Size32
+Title.TextSize = 30
+Title.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Title.TextStrokeTransparency = 0
+ 
+Toggle.Parent = BG
+Toggle.BackgroundColor3 = Color3.new(0.266667, 0.00392157, 0.627451)
+Toggle.BorderColor3 = Color3.new(0.180392, 0, 0.431373)
+Toggle.BorderSizePixel = 2
+Toggle.Position = UDim2.new(0.152380958, 0, 0.374192119, 0)
+Toggle.Size = UDim2.new(0, 146, 0, 36)
+Toggle.Font = Enum.Font.Highway
+Toggle.FontSize = Enum.FontSize.Size28
+Toggle.Text = "Toggle"
+Toggle.TextColor3 = Color3.new(1, 1, 1)
+Toggle.TextSize = 25
+Toggle.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Toggle.TextStrokeTransparency = 0
+ 
+StatusPF.Name = "StatusPF"
+StatusPF.Parent = BG
+StatusPF.BackgroundColor3 = Color3.new(1, 1, 1)
+StatusPF.BackgroundTransparency = 1
+StatusPF.Position = UDim2.new(0.314285725, 0, 0.708661377, 0)
+StatusPF.Size = UDim2.new(0, 56, 0, 20)
+StatusPF.Font = Enum.Font.Highway
+StatusPF.FontSize = Enum.FontSize.Size24
+StatusPF.Text = "Status:"
+StatusPF.TextColor3 = Color3.new(1, 1, 1)
+StatusPF.TextSize = 20
+StatusPF.TextStrokeColor3 = Color3.new(0.333333, 0.333333, 0.333333)
+StatusPF.TextStrokeTransparency = 0
+StatusPF.TextWrapped = true
+ 
+Status.Name = "Status"
+Status.Parent = BG
+Status.BackgroundColor3 = Color3.new(1, 1, 1)
+Status.BackgroundTransparency = 1
+Status.Position = UDim2.new(0.580952346, 0, 0.708661377, 0)
+Status.Size = UDim2.new(0, 56, 0, 20)
+Status.Font = Enum.Font.Highway
+Status.FontSize = Enum.FontSize.Size14
+Status.Text = "off"
+Status.TextColor3 = Color3.new(0.666667, 0, 0)
+Status.TextScaled = true
+Status.TextSize = 14
+Status.TextStrokeColor3 = Color3.new(0.180392, 0, 0.431373)
+Status.TextWrapped = true
+Status.TextXAlignment = Enum.TextXAlignment.Left
+ 
+Credit.Name = "Credit"
+Credit.Parent = BG
+Credit.BackgroundColor3 = Color3.new(1, 1, 1)
+Credit.BackgroundTransparency = 1
+Credit.Position = UDim2.new(0.195238099, 0, 0.866141737, 0)
+Credit.Size = UDim2.new(0, 128, 0, 17)
+Credit.Font = Enum.Font.SourceSans
+Credit.FontSize = Enum.FontSize.Size18
+Credit.Text = "Created by SEN"
+Credit.TextColor3 = Color3.new(1, 1, 1)
+Credit.TextSize = 16
+Credit.TextStrokeColor3 = Color3.new(0.196078, 0.196078, 0.196078)
+Credit.TextStrokeTransparency = 0
+Credit.TextWrapped = true
+ 
+Toggle.MouseButton1Click:connect(function()
+	if Status.Text == "off" then
+		Clipon = true
+		Status.Text = "on"
+		Status.TextColor3 = Color3.new(0,185,0)
+		Stepped = game:GetService("RunService").Stepped:Connect(function()
+			if not Clipon == false then
+				for a, b in pairs(Workspace:GetChildren()) do
+                if b.Name == Plr.Name then
+                for i, v in pairs(Workspace[Plr.Name]:GetChildren()) do
+                if v:IsA("BasePart") then
+                v.CanCollide = false
+                end end end end
+			else
+				Stepped:Disconnect()
+			end
+		end)
+	elseif Status.Text == "on" then
+		Clipon = false
+		Status.Text = "off"
+		Status.TextColor3 = Color3.new(170,0,0)
+	end
+end)
+ end,
+})
+
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "All Hoopz Logos (Client Sided)",
+   Callback = function()
+local plr = game:GetService("Players").LocalPlayer
+local Chr = plr.Character
+local Logos = Chr.HumanoidRootPart.CreatorTag
+Logos.StaffLabel.Visible = true
+Logos.TwitchLabel.Visible = true
+Logos.YoutubeLabel.Visible = true
+end,
+})
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "Disable logos",
+   Callback = function()
+local plr = game:GetService("Players").LocalPlayer
+local Chr = plr.Character
+local Logos = Chr.HumanoidRootPart.CreatorTag
+local AllLogos
+    for i , v in pairs(Logos:GetChildren()) do
+        if v:IsA("ImageLabel") then
+
+            AllLogos = v 
+        AllLogos.Visible = false
+    end
+    end
+end,
+})
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "Remove Nametag",
+   Callback = function()
+       for _,m in pairs(game:GetService("Workspace"):GetDescendants()) do
+            if m.ClassName == "TextLabel" then 
+            if m.Text == game:GetService("Players").LocalPlayer.Name then
+            m:Destroy()
+            for j,m in pairs(game:GetService("Players").LocalPlayer:GetDescendants()) do
+            if m.ClassName == "TextLabel" then 
+            if m.Text == game:GetService("Players").LocalPlayer.Name then
+            m:Destroy()
+            for h,v in pairs(workspace[game.Players.LocalPlayer.Name].Head:GetChildren()) do
+            if v:IsA('BillboardGui') then
+            v:Remove()
+            end
+            end
+            end
+            end
+            end
+            end
+            end
+            end
+            while true do
+                for i,s in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if s:IsA("Accessory") then
+                s.Parent = workspace
+                end
+                end
+                for i,f in pairs(game.Workspace[game.Players.LocalPlayer.Name].Head:GetChildren()) do
+                    if f:IsA("Decal") and f.Name == "face" then
+                        f.Parent = nil
+                    end
+                end
+                game:GetService("RunService").Stepped:wait()
+            end
+  	end,
+})
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "HideAllStats",
+   Callback = function()
+       game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Record",false)
+        game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Streak",false)
+        game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Rank",false)
+    end,
+})
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "ShowAllStats",
+   Callback = function()
+       game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Record",true)
+        game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Streak",true)
+        game:GetService("ReplicatedStorage").toggleEvent:InvokeServer("Rank",true)
+  	end,
+})
+
+
+
+
+
+
+local Button = Tab2:CreateButton({
+   Name = "TrashTalk (Key Y)",
+   Callback = function(v)
+       local words = {
+            'ur bad',
+            'Dont care',
+            'Quit the game',
+            'LOL',
+            'sad',
+            'I would quit if i had that shot',
+            'Nika',
+            'your horrible',
+            'brickCity',
+            'Get Off This Game LOL',
+            'God you suck',
+            'Glad i dont shot like that',
+        }
+        local player = game.Players.LocalPlayer
+        local keybind = 'y'
+        local event = game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest
+        player:GetMouse().KeyDown:connect(function(key)
+            if key == keybind then
+                event:FireServer(words[math.random(#words)], "All")
+          end
+        end)
+  	end,
+})
+
+
+--TELEPORTS
+local Section = Tab5:CreateSection("NEXT UPDATE!")
+
+
+
+ local shootingEvent = game:GetService("ReplicatedStorage").shootingEvent
+ 
+        if workspace:FindFirstChild("PracticeArea") then
+            workspace.PracticeArea.Parent = workspace.Courts
+        end
+ 
+        local jumping = false
+ 
+        for i,v in pairs(getconnections(game:GetService("UserInputService").TouchTapInWorld)) do
+            for z,x in pairs(getupvalues(v.Function)) do
+                if type(x) == "table" and rawget(x, 1) then
+                    _G.method = x
+                elseif z == 10 then
+                    _G.key = x
+                end
+            end
+        end
+ 
+        for i,v in pairs(getconnections(plr.Character.HumanoidRootPart:GetPropertyChangedSignal("Size"))) do
+            v:Disable()
+        end
+ 
+        for i,v in pairs(getconnections(plr.Character.HumanoidRootPart:GetPropertyChangedSignal("Color"))) do
+            v:Disable()
+        end
+ 
+        for i,v in pairs(getconnections(plr.Character.HumanoidRootPart:GetPropertyChangedSignal("BrickColor"))) do
+            v:Disable()
+        end
+ 
+        for i,v in pairs(getconnections(plr.Character.Humanoid:GetPropertyChangedSignal("WalkSpeed"))) do
+            v:Disable()
+        end
+ 
+        local ground
+ 
+        local part = workspace:FindPartOnRay(Ray.new(plr.Character.Torso.Position, Vector3.new(0, -100, 5)))
+        if part then
+            ground = part
+        end
+ 
+        local tracking = false
+        local player
+ 
+        function updateNearestPlayerWithBall()
+            local dist = 9e9
+            for i,v in pairs(game.Players:GetPlayers()) do
+                if v.Name ~= plr.Name and v.Character and v.Character:FindFirstChild("Basketball") and not plr.Character:FindFirstChild("Basketball") and (plr.Character.Torso.Position - v.Character.Torso.Position).Magnitude < 50 then
+                    local mag = (plr.Character.Torso.Position - v.Character.Torso.Position).Magnitude
+                    if dist > mag then
+                        dist = mag
+                        player = v
+                    end
+                end
+            end
+        end
+ 
+        if _G.hook ~= nil then
+            _G.hook = ""; _G.hook = hookmetamethod(game, "__index", newcclosure(function(self, idx)
+                if tostring(self) == "HumanoidRootPart" and idx == "Size" then
+                    return Vector3.new(2, 2, 1)
+                elseif tostring(self) == "HumanoidRootPart" and idx == "BrickColor" then
+                    return BrickColor.new("Medium stone grey")
+                elseif tostring(self) == "HumanoidRootPart" and idx == "Color" then
+                    return Color3.fromRGB(163, 162, 165)
+                elseif tostring(self) == "Humanoid" and idx == "WalkSpeed" then
+                    return 16
+                end
+                return hook(self, idx)
+            end))
+        end
+ 
+        shootingEvent.OnClientEvent:Connect(function(newKey)
+            _G.key = newKey
+        end)
+ 
+        function setup()
+            local dist, goal = 9e9, nil
+            for i,v in pairs(workspace.Courts:GetDescendants()) do
+                if v.Name == "Swish" and v:IsA("Sound") and plr.Character and plr.Character:FindFirstChild("Torso") then
+                    local mag = (plr.Character.Torso.Position - v.Parent.Position).Magnitude
+                    if dist > mag then
+                        dist = mag; goal = v.Parent
+                    end
+                end
+            end
+            return dist, goal
+        end
+ 
+        function power()
+            return plr.Power
+        end
+ 
+        function changePower(goal)
+            power().Value = goal
+        end
+ 
+        function table(a, b)
+            local args = {
+        X1 = a.X, 
+        Y1 = a.Y, 
+        Z1 = a.Z, 
+        X2 = b.X, 
+        Y2 = b.Y, 
+        Z2 = b.Z
+        };
+ 
+        return {args[_G.method[1]], args[_G.method[2]], args[_G.method[3]], args[_G.method[4]], args[_G.method[5]], args[_G.method[6]]}
+        end
+ 
+        function arc()
+            local dist, goal = setup()
+ 
+            dist = math.floor(dist)
+            print(dist)
+            if dist == 12 or dist == 13 then
+                return 15
+            elseif dist == 14 or dist == 15 then
+                return 20
+            elseif dist == 16 or dist == 17 then
+                return 15
+            elseif dist == 18 then
+                return 25
+            elseif dist == 19 then
+                return 20
+            elseif dist == 20 or dist == 21 then
+                return 20
+            elseif dist == 22 or dist == 23 then
+                return 25
+            elseif dist == 24 or dist == 25 then
+                return 20
+            elseif dist == 26 then
+                return 15
+            elseif dist == 27 or dist == 28 then
+                return 25
+            elseif dist == 29 or dist == 30 then
+                return 20
+            elseif dist == 31 then
+                return 15
+            elseif dist == 32 or dist == 33 then
+                return 30
+            elseif dist == 34 or dist == 35 or dist == 36 then
+                return 25
+            elseif dist == 37 or dist == 38 then
+                return 35
+            elseif dist == 39 or dist == 40 then
+                return 30
+            elseif dist == 41 then
+                return 25
+            elseif dist == 42 or dist == 43 then
+                return 40
+            elseif dist == 44 then
+                return 35
+            elseif dist == 45 or dist == 46 then
+                return 30
+            elseif dist == 47 or dist == 48 then
+                return 45
+            elseif dist == 49 then
+                return 40
+            elseif dist == 50 then
+                return 35
+            elseif dist == 51 then
+                return 50
+            elseif dist == 52 then
+                return 55
+            elseif dist == 53 or dist == 54 then
+                return 50
+            elseif dist == 55 then
+                return 45
+            elseif dist == 56 then
+                return 40
+            elseif dist == 57 or dist == 58 then
+                return 55
+            elseif dist == 59 or dist == 60 or dist == 61 then
+                return 50
+            elseif dist == 62 or dist == 63 then
+                return 65
+            elseif dist == 64 then
+                return 55
+            elseif dist == 65 then
+                return 60
+            elseif dist == 66 or dist == 67 then
+                return 50
+            elseif dist == 68 or dist == 69 then
+                return 75
+            elseif dist == 70 or dist == 71 then
+                return 70
+            elseif dist == 72 then
+                return 65
+            elseif dist == 73 then
+                return 60
+            elseif dist == 74 then
+                return 50
+            elseif jumping then
+                if dist == 9 or dist == 10 then
+                    return 20
+                elseif dist == 11 or dist == 12 then
+                    return 15
+                end
+            end
+        end
+ 
+        function getNearestPart(torso)
+            local dist, part = 9e9 
+            for i,v in pairs(plr.Character:GetChildren()) do
+                if v:IsA("Part") and torso then
+                    local mag = (v.Position - torso.Position).Magnitude
+                    if dist > mag then
+                        dist = mag
+                        part = v
+                    end
+                end
+            end
+            return part
+        end
+ 
+        function stepped() pcall(function()
+            if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and _G.Aimbot then
+                local pwr = power()
+                local dist, goal = setup()
+                local root = plr.Character.HumanoidRootPart
+ 
+                dist = math.floor(dist)
+ 
+                if root and hasBall then
+                    root.Size = Vector3.new(2.1, 2.1, 1.1)
+                    root.BrickColor = BrickColor.new("Lime green")
+                    root.Material = Enum.Material.Neon
+ 
+                    if dist >= 13 and dist <= 16 then
+                        changePower(30)
+                        root.Transparency = 0
+                    elseif dist >= 17 and dist <= 21 then
+                        changePower(35)
+                        root.Transparency = 0
+                    elseif dist >= 22 and dist <= 26 then
+                        changePower(40)
+                        root.Transparency = 0 
+                    elseif dist >= 27 and dist <= 31 then
+                        changePower(45)
+                        root.Transparency = 0
+                    elseif dist >= 32 and dist <= 36 then
+                        changePower(50)
+                        root.Transparency = 0
+                    elseif dist >= 37 and dist <= 41 then
+                        changePower(55)
+                        root.Transparency = 0
+                    elseif dist >= 42 and dist <= 46 then
+                        changePower(60)
+                        root.Transparency = 0
+                    elseif dist >= 47 and dist <= 50 then
+                        changePower(65)
+                        root.Transparency = 0
+                    elseif dist >= 51 and dist <= 56 then
+                        changePower(70)
+                        root.Transparency = 0
+                    elseif dist >= 57 and dist <= 61 then
+                        changePower(75)
+                        root.Transparency = 0
+                    elseif dist >= 62 and dist <= 67 then
+                        changePower(80)
+                        root.Transparency = 0
+                    elseif dist >= 68 and dist <= 74 then
+                        changePower(85)
+                        root.Transparency = 0
+                    elseif jumping and dist == 9 or dist == 10 or dist == 11 or dist == 12 then
+                        changePower(25)
+                        root.Transparency = 0
+                    else
+                        root.Transparency = 1
+                    end
+                elseif root and not hasBall and _G.Aimbot then
+                    root.Transparency = 1
+                elseif root and not _G.Aimbot then
+                    root.Transparency = 1
+                end
+            end
+ 
+            updateNearestPlayerWithBall()
+ 
+ 
+            if _G.Autoguard and tracking and player and plr.Character and plr.Character:FindFirstChild("Humanoid") and not plr.Character:FindFirstChild("Basketball") and player.Character and player.Character:FindFirstChild("Basketball") then
+                plr.Character.Humanoid:MoveTo(player.Character.Basketball:FindFirstChildOfClass("Part").Position + player.Character.Torso.CFrame.LookVector + ((player.Character.Humanoid.MoveDirection * 2) + (plr.Character.Torso.Velocity.Unit * 3)))
+ 
+                if (player.Character.Torso.Position.Y - ground.Position.Y) > 2.5 then
+                    plr.Character.Humanoid.Jump = true
+                end
+            elseif tracking and player ~= nil and player.Character and plr.Character and plr.Character:FindFirstChild("Basketball") or not player.Character:FindFirstChild("Basketball") then
+                tracking = false
+                return
+            end
+ 
+            for i,v in pairs(game.Players:GetPlayers()) do
+                if (v.Name ~= plr.Name and v.Character and plr.Character) and _G.Reach then
+                    local nearestPart = getNearestPart(v.Character.Torso)
+                    for z,x in pairs(v.Character:GetChildren()) do
+                        if ((nearestPart.Position - v.Character.Torso.Position).Magnitude < 8) then
+                            if (x:IsA("Tool") or x:IsA("Folder")) then
+                                firetouchinterest(nearestPart, x:FindFirstChildOfClass("Part"), 0)
+                                task.wait()
+                                firetouchinterest(nearestPart, x:FindFirstChildOfClass("Part"), 1)
+                            elseif (x:IsA("BasePart") and string.find(x.Name:lower(), "ball")) then
+                                firetouchinterest(nearestPart, x, 0)
+                                task.wait()
+                                firetouchinterest(nearestPart, x, 1)
+                            end
+                        end
+                    end
+                end
+            end
+        end) end
+ 
+        function shoot()
+            local dist, goal = setup()
+            local pwr = power()
+            local arc = arc()
+ 
+            if arc ~= nil and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+                local args = table(plr.Character.Torso.Position, (goal.Position + Vector3.new(0, arc, 0) - plr.Character.HumanoidRootPart.Position + plr.Character.Humanoid.MoveDirection).Unit)
+ 
+                shootingEvent:FireServer(
+                    plr.Character.Basketball,
+                    pwr.Value,
+                    args,
+                    _G.key
+                )
+            end
+        end
+ 
+        function jumped()
+            if _G.Aimbot and plr.Character and hasBall and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character.HumanoidRootPart.Transparency == 0 then
+                jumping = true
+                task.wait(0.325)
+                shoot()
+                task.wait(0.1)
+                jumping = false
+            end
+        end
+ 
+        function added(v)
+            if v.Name == "Basketball" then
+                task.wait(0.5)
+                hasBall = true
+            end
+        end
+ 
+        function removed(v)
+            if v.Name == "Basketball" then
+                hasBall = false
+            end
+        end
+ 
+        function began(key, gpe)
+            if not gpe and key.KeyCode == Enum.KeyCode.X and _G.Autoguard then
+                updateNearestPlayerWithBall()
+                if not tracking then
+                    tracking = true
+                else
+                    tracking = false
+                end
+            end
+        end
+ 
+        _G.input = plr.Character.Humanoid.Jumping:Connect(jumped)
+        _G.added = plr.Character.ChildAdded:Connect(added)
+        _G.removed = plr.Character.ChildRemoved:Connect(removed)
+        _G.stepped = rs.Stepped:Connect(stepped)
+        _G.began = uis.InputBegan:Connect(began)
+ 
+        _G.charAdded = plr.CharacterAdded:Connect(function(ch)
+            _G.input = ch:WaitForChild("Humanoid").Jumping:Connect(jumped)
+            _G.added = ch.ChildAdded:Connect(added)
+            _G.removed = ch.ChildRemoved:Connect(removed)
+ 
+            for i,v in pairs(getconnections(ch:WaitForChild("HumanoidRootPart"):GetPropertyChangedSignal("Size"))) do
+                v:Disable()
+            end
+            for i,v in pairs(getconnections(ch:WaitForChild("HumanoidRootPart"):GetPropertyChangedSignal("BrickColor"))) do
+                v:Disable()
+            end
+            for i,v in pairs(getconnections(ch:WaitForChild("HumanoidRootPart"):GetPropertyChangedSignal("Color"))) do
+                v:Disable()
+            end
+            for i,v in pairs(getconnections(ch:WaitForChild("Humanoid"):GetPropertyChangedSignal("WalkSpeed"))) do
+                v:Disable()
+            end
+            end)
+            
