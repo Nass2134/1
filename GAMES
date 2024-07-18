@@ -11,5 +11,5 @@ if game.PlaceId == 10191847911 then --STFO
 end
 
 if game.PlaceId == 6229116934 then --Hoops
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/script3'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/script4'))()
 end
