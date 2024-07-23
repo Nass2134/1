@@ -84,6 +84,7 @@ end))
 local Tab = Window:CreateTab("MAIN", 4483362458) -- Title, Image
 local Tab2 = Window:CreateTab("Player", 4483362458) -- Title, Image
 local Tab3 = Window:CreateTab("Teleports+Buys", 4483362458) -- Title, Image
+local Tab5 = Window:CreateTab("Money", 4483362458) -- Title, Image
 local Tab4 = Window:CreateTab("Settings", 4483362458) -- Title, Image
 
 
@@ -93,7 +94,7 @@ local Section = Tab:CreateSection("HAX Features")
 
 
 local Button = Tab:CreateButton({
-   Name = "Aimbot (c)",
+   Name = "Aimbot (x)",
    Callback = function()
    getgenv().OldAimPart = "HumanoidRootPart"
 getgenv().AimPart = "HumanoidRootPart" -- For R15 Games: {UpperTorso, LowerTorso, HumanoidRootPart, Head} | For R6 Games: {Head, Torso, HumanoidRootPart}  
@@ -267,6 +268,16 @@ getgenv().AimPart = "HumanoidRootPart" -- For R15 Games: {UpperTorso, LowerTorso
 end)
    end,
 })
+
+
+
+local Button = Tab:CreateButton({
+   Name = "(NEW) ESP",
+   Callback = function()
+   loadstring(game:HttpGet("https://pastebin.com/raw/h8vUuY1Y"))()
+   end,
+})
+
 
 
 local Button = Tab:CreateButton({
@@ -449,6 +460,30 @@ local Button = Tab:CreateButton({
          end)
    end,
 })
+
+
+local Button = Tab:CreateButton({
+   Name = "1 HEAD TAP HITBOX (OP)",
+   Callback = function()
+    local localplayer = game.Players.LocalPlayer
+ 
+    game:GetService("RunService").RenderStepped:Connect(function()
+      for _, v in pairs(game.Players:GetPlayers()) do
+        if v ~= localplayer then
+          if v.Character:FindFirstChild("Head") and v ~= localplayer then
+            local jk = v.Character:FindFirstChild("Head")
+            if jk and jk ~= localplayer and v.Character:FindFirstChild("Humanoid").Health > 0 then
+              jk.Size = Vector3.new(5, 5, 5)
+              jk.Transparency = 0.5
+            end
+          end
+        end
+      end
+    end)
+   end,
+})
+
+
 
 
 local Button = Tab:CreateButton({
@@ -658,29 +693,55 @@ local Section = Tab4:CreateSection("HAX Settings")
 local Button = Tab4:CreateButton({
    Name = "Low GFX",
    Callback = function()
-   -- Made by RIP#6666
-_G.Settings = {
-    Players = {
-        ["Ignore Me"] = true, -- Ignore your Character
-        ["Ignore Others"] = true -- Ignore other Characters
-    },
-    Meshes = {
-        Destroy = false, -- Destroy Meshes
-        LowDetail = true -- Low detail meshes (NOT SURE IT DOES ANYTHING)
-    },
-    Images = {
-        Invisible = true, -- Invisible Images
-        LowDetail = false, -- Low detail images (NOT SURE IT DOES ANYTHING)
-        Destroy = false, -- Destroy Images
-    },
-    ["No Particles"] = true, -- Disables all ParticleEmitter, Trail, Smoke, Fire and Sparkles
-    ["No Camera Effects"] = true, -- Disables all PostEffect's (Camera/Lighting Effects)
-    ["No Explosions"] = true, -- Makes Explosion's invisible
-    ["No Clothes"] = true, -- Removes Clothing from the game
-    ["Low Water Graphics"] = true, -- Removes Water Quality
-    ["No Shadows"] = true, -- Remove Shadows
-    ["Low Rendering"] = true, -- Lower Rendering
-    ["Low Quality Parts"] = true -- Lower quality parts
+   local ToDisable = {
+	Textures = true,
+	VisualEffects = false,
+	Parts = true,
+	Particles = false,
+	Sky = false
 }
+ 
+local ToEnable = {
+	FullBright = false
+}
+ 
+local Stuff = {}
+ 
+for _, v in next, game:GetDescendants() do
+	if ToDisable.Parts then
+		if v:IsA("Part") or v:IsA("Union") or v:IsA("BasePart") then
+			v.Material = Enum.Material.SmoothPlastic
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Particles then
+		if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Explosion") or v:IsA("Sparkles") or v:IsA("Fire") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.VisualEffects then
+		if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("SunRaysEffect") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Textures then
+		if v:IsA("Decal") or v:IsA("Texture") then
+			v.Texture = ""
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Sky then
+		if v:IsA("Sky") then
+			v.Parent = nil
+			table.insert(Stuff, 1, v)
+		end
+	end
+end
    end,
 })
