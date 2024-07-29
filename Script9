@@ -1,0 +1,84 @@
+--//Variables
+local Settings = {
+Autogreener = {
+Method = "Bar based",
+Toggle = false,
+Delay = 0,
+Bar = "MeterUi Overhead",
+},
+Infstamina = true,
+Walkspeed = {
+Toggle = false,
+Speed = 40,
+},
+}
+local player = game.Players.LocalPlayer
+local methods = { "Classic", "Bar based" }
+local bars = { "MeterUi Overhead", "MeterUi Vertical Bar" }
+local vim = game:GetService("VirtualInputManager")
+local val = 40 - (math.round(player:GetNetworkPing() * 200))
+local trigger = player.Character.Head[Settings.Autogreener.Bar].Bar[val]
+local color = trigger.BackgroundColor3
+local ping = player.PlayerGui["ServerInfo.Ui"].TopBarFrame.Holder.ServerInfo.BackgroundBubble.FPS.Ping
+local plrPing =
+tonumber(string.sub(ping.Text, string.find(ping.Text, ">") + 1, string.find(ping.Text, ">") + #ping.Text - 42))
+
+-- ping finder
+-- remotes
+
+local function autogreen()
+if Settings.Autogreener.Toggle == true then
+if Settings.Autogreener.Method == "Classic" then
+game:GetService("UserInputService").InputBegan:Connect(function(k, t)
+if not t and k.KeyCode == Enum.KeyCode.E then
+task.wait(Settings.Autogreener.Delay)
+vim:SendKeyEvent(false, "E", false, game)
+end
+end)
+elseif Settings.Autogreener.Method == "Bar based" then
+trigger.Changed:Connect(function()
+if trigger.BackgroundColor3 ~= color then
+vim:SendKeyEvent(false, "E", false, game)
+end
+end)
+end
+end
+end
+
+local function infstamina()
+if not Settings.Infstamina then
+return
+end
+player.Backpack.PlayerEvents.Sprinting:FireServer(false)
+end
+
+
+local lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt")()
+
+local win = lib:Window("HAXHUB (RH2)",Color3.fromRGB(44, 120, 224), Enum.KeyCode.RightControl)
+
+local tab = win:Tab("MAIN")
+
+tab:Toggle("Auto Green",false, function(Value)
+Settings.Autogreener.Toggle = Value
+autogreen()
+end)
+
+tab:Dropdown("Auto time (Classic recommended)",{"Classic",}, function(Value)
+Settings.Autogreener.Method = Value
+end)
+
+tab:Slider("Delay Slider",0,5,0, function(Value)
+Settings.Autogreener.Delay = Value
+end)
+
+local Number = Options.MySlider.Value
+Options.MySlider:OnChanged(function()
+autogreen()
+end)
+
+local changeclr = win:Tab("Change UI Color")
+
+changeclr:Colorpicker("Change UI Color",Color3.fromRGB(44, 120, 224), function(t)
+lib:ChangePresetColor(Color3.fromRGB(t.R * 255, t.G * 255, t.B * 255))
+end)
