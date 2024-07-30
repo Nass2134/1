@@ -1607,9 +1607,36 @@ local Settings = {
          end)
 end)
 
-tab1:Button("Grab All Tools (INF YIELD)", function(args, speaker)
-lib:Notification("Notification", "Search Grab Tools", "Ok")
-   loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+tab1:Button("Grab All Tools", function()
+lib:Notification("Notification", "GRAB ALL TOOLS", "Ok")
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Function to equip tools
+local function equipTool(tool)
+    if character and tool:IsA("BackpackItem") and tool:FindFirstChild("Handle") then
+        humanoid:EquipTool(tool)
+    end
+end
+
+
+for _, child in ipairs(workspace:GetChildren()) do
+    equipTool(child)
+end
+
+-- Connect to ChildAdded event to equip new tools
+local grabtoolsFunc = workspace.ChildAdded:Connect(equipTool)
+
+-- Optional: Function to stop grabbing tools
+local function stopGrabbingTools()
+    if grabtoolsFunc then
+        grabtoolsFunc:Disconnect()
+        grabtoolsFunc = nil
+    end
+end
+
+-- To stop grabbing tools, call stopGrabbingTools() 
 end)
 
 tab1:Button("1 HEAD TAP/INSTA KILL", function()
