@@ -1,0 +1,409 @@
+local lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt")()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+--Vars
+_G.Walkspeed = false
+_G.WalkspeedValue = 0.30
+_G.Jam = false
+_G.CheckingTool = false
+_G.jjj = false
+_G.Arms = 10
+_G.Tackle = false
+_G.TacklePower = 10
+_G.Delay = 1
+_G.Mags = false
+_G.MagPower = 30
+_G.BallHBE = false
+_G.BallHBEPower = 7
+_G.PullVector = false
+_G.PullVectorDistance = 15
+_G.JumpPower = false
+_G.Admin = true
+_G.Fly = false
+_G.BallPred = false
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local predictionMath = loadstring(game:HttpGet("https://raw.githubusercontent.com/IScriptCoolThings/Test/main/Bezier"))()
+
+local Workspace = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+
+--Functions
+
+local function startMovement()
+    if not _G.Walkspeed then
+        return
+    end
+    _G.Walkspeed = false
+
+    moveConnection = task.spawn(function()
+        while not _G.Walkspeed do
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame +
+                game:GetService("Players").LocalPlayer.Character.Humanoid.MoveDirection * _G.WalkspeedValue
+            task.wait()
+        end
+    end)
+end
+
+local function stopMovement()
+    if _G.Walkspeed then
+        return
+    end
+    _G.Walkspeed = true
+    if moveConnection then
+        moveConnection:cancel()
+    end
+end
+
+-- Window
+local win = lib:Window("HAXHUB (FF2)",Color3.fromRGB(191, 13, 43), Enum.KeyCode.RightControl)
+
+-- Tabs
+local tab2 = win:Tab("Main")
+local tab3 = win:Tab("Main+")
+local tab6 = win:Tab("Players")
+local tab5 = win:Tab("Settings")
+
+--
+tab6:Toggle("Walkspeed",false, function(t)
+        _G.Walkspeed = t
+        if _G.Walkspeed == false then
+            stopMovement()
+        else
+            startMovement()
+        end
+end)
+
+tab6:Toggle("Jump Power",false, function(t)
+    _G.JumpPower = t
+end)
+
+tab6:Slider("Walkspeed Adjust",16,30,16, function(t)
+    _G.WalkspeedValue = .01 * t
+end)
+
+tab6:Slider("Jump Power Height",50,60,50, function(t)
+if _G.JumpPower == true then
+game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = t
+elseif _G.JumpPower == false then
+
+end
+end)
+
+
+tab2:Toggle("Ball Predictions",false, function(t)
+    _G.BallPred = t
+
+    if _G.BallPred == true then
+    local eventConnection = predictionMath.activateBeam()
+    elseif _G.BallPred == false then
+        predictionMath.deactivateBeam(eventConnection)
+    end
+end)
+
+
+
+tab2:Toggle("Magnets",false, function(t)
+        _G.Mags = t
+end)
+
+tab2:Slider("Mags Distance",0,25,0, function(t) 
+    _G.MagPower = t
+end)
+
+game:GetService("RunService").Heartbeat:Connect(function()
+                for _, v in pairs(workspace:GetChildren()) do
+                    if v.Name == "Football" and v:IsA("BasePart") then
+                        if (game:GetService("Players").LocalPlayer.Character:FindFirstChild("CatchRight").Position - v.Position).Magnitude <= _G.MagPower and _G.Mags then
+                            firetouchinterest(game:GetService("Players").LocalPlayer.Character:WaitForChild("CatchRight"), v, 0)
+                            firetouchinterest(game:GetService("Players").LocalPlayer.Character:WaitForChild("CatchRight"), v, 1)
+                            task.wait()
+                            firetouchinterest(game:GetService("Players").LocalPlayer.Character:WaitForChild("CatchRight"), v, 0)
+                            firetouchinterest(game:GetService("Players").LocalPlayer.Character:WaitForChild("CatchRight"), v, 1)
+                        end
+                    end
+                end
+  end)
+
+tab2:Toggle("Anti Jam",false, function(t)
+        _G.Jam = t
+
+        while _G.Jam do
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild('Head') then
+                for _, player in ipairs(Players:GetPlayers()) do
+                    if player ~= LocalPlayer then
+                        pcall(function()
+                            if player.Character and player.Character:FindFirstChild('Head') then
+                                player.Character.Head.CanCollide = not _G.Jam
+                                if player.Character:FindFirstChild('Torso') then
+                                    player.Character.Torso.CanCollide = not _G.Jam
+                                end
+                            end
+                        end)
+                    end
+                end
+            end
+            wait()
+        end
+        while not _G.Jam do
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild('Head') then
+            LocalPlayer.Character.Head.CanCollide = true
+            if LocalPlayer.Character:FindFirstChild('Torso') then
+                LocalPlayer.Character.Torso.CanCollide = true
+            end
+        end
+        wait()
+        end
+end)
+
+tab2:Toggle("Long Arms",false, function(t)
+    _G.CheckingTool = t
+    Highlight = Instance.new("Highlight", LocalPlayer.Character['Left Arm'])
+    Highlight.Enabled = t
+    Highlight2 = Instance.new("Highlight", LocalPlayer.Character['Right Arm'])
+    Highlight2.Enabled = t
+
+    Highlight.FillColor = Color3.fromRGB(191, 13, 43)
+    Highlight2.FillColor = Color3.fromRGB(191, 13, 43)
+
+        _G.jjj = t
+    if _G.jjj == true then
+        LocalPlayer.Character['Left Arm'].Size = Vector3.new(1, _G.Arms, 1)
+        LocalPlayer.Character['Right Arm'].Size = Vector3.new(1, _G.Arms, 1)
+        LocalPlayer.Character['Left Arm'].Transparency = .999
+        LocalPlayer.Character['Right Arm'].Transparency = .999
+    elseif _G.jjj == false then
+        LocalPlayer.Character['Left Arm'].Size = Vector3.new(1, 2, 1)
+        LocalPlayer.Character['Right Arm'].Size = Vector3.new(1, 2, 1)
+        LocalPlayer.Character['Left Arm'].Transparency = 0
+        LocalPlayer.Character['Right Arm'].Transparency = 0
+    end
+end)  
+
+tab2:Slider("Long Arms Power",5,20,10, function(t)
+    _G.Arms = t
+    if _G.CheckingTool == true then
+        LocalPlayer.Character['Left Arm'].Size = Vector3.new(1, _G.Arms, 1)
+        LocalPlayer.Character['Right Arm'].Size = Vector3.new(1, _G.Arms, 1)
+    elseif _G.CheckingTool == false then
+
+    end
+end)
+
+
+tab3:Toggle("F To TP",false, function(t)
+    _G.F = t
+
+    local player = game:GetService("Players").LocalPlayer
+
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    local userInputService = game:GetService("UserInputService")
+
+    local function teleportForward()
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+            if rootPart then
+
+                local forwardVector = rootPart.CFrame.LookVector
+
+                local newPosition = rootPart.Position + forwardVector * 5
+
+                rootPart.CFrame = CFrame.new(newPosition, newPosition + forwardVector)
+                end
+            end
+
+            local function onKeyPress(input, gameProcessedEvent)
+                if input.KeyCode == Enum.KeyCode.F and not gameProcessedEvent and _G.F == true then
+                    teleportForward()
+                end
+            end
+    userInputService.InputBegan:Connect(onKeyPress)
+end)
+
+
+tab3:Button("Anti OOB", function()
+local bounds = game:GetService("Workspace").Models.Boundaries
+bounds:Destroy()
+end)
+
+
+tab3:Button("AutoCaptain Teleport", function()
+        LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Models.LockerRoomA.FinishLine.CFrame + Vector3.new(0, 2, 0)
+end)
+
+
+tab3:Toggle("TP Tackle",false, function(t)
+    _G.Tackle = t
+
+    while _G.Tackle == true do
+        local closestFootball = nil
+            local closestDistance = math.huge
+
+                for _, v in pairs(game.workspace:GetDescendants()) do
+                    if v.Name == "Football" and v:IsA("Tool") then
+                        local localPlayer = Players.LocalPlayer
+                        if localPlayer.Backpack:FindFirstChild("Football") or localPlayer.Character:FindFirstChild("Football") then
+                             break 
+                        end
+
+                        local t = v.Parent.HumanoidRootPart.Position
+                        local p = localPlayer.Character.HumanoidRootPart.Position
+                        local d = (t - p).Magnitude
+
+                        if d <= _G.TacklePower and d < closestDistance then
+                            closestFootball = v.Parent
+                               closestDistance = d
+                        end
+                    end
+                end
+
+                    if closestFootball then
+                        local localPlayer = Players.LocalPlayer
+                        if not (localPlayer.Backpack:FindFirstChild("Football") or localPlayer.Character:FindFirstChild("Football")) then
+                            localPlayer.Character.HumanoidRootPart.CFrame = closestFootball.HumanoidRootPart.CFrame + Vector3.new(1, 1, 1)
+                        end
+                    end
+
+                    wait(_G.Delay)
+                end
+end)
+
+tab3:Slider("Tackle Distance",5,15,10, function(t)
+    _G.TacklePower = t
+end)
+
+tab3:Slider("Tackle Delay",.5,1,.7, function(t)
+    _G.Delay = t
+end)
+
+
+
+tab2:Toggle("Ball Expander",false, function(t)
+        _G.BallHBE = t
+
+        game:GetService("Workspace").ChildAdded:Connect(function(child)
+            if child.Name == "Football" and _G.BallHBE == true then
+                child.Size = Vector3.new(_G.BallHBEPower, _G.BallHBEPower, _G.BallHBEPower)
+                child.CanCollide = false
+                child.Massless = true
+                        local fb = child
+                        local part = Instance.new("Part")
+                        part.Size = Vector3.new(_G.BallHBEPower, _G.BallHBEPower, _G.BallHBEPower)
+                        part.Color = Color3.fromRGB(163, 162, 165)
+                        part.Anchored = true
+                        part.Transparency = 0.7
+                        part.CanCollide = false
+                        part.Name = "BallHBE"
+                        part.Parent = fb
+                        part.CFrame = fb.CFrame
+
+                        local lastUpdate = tick()
+                        RunService.RenderStepped:Connect(function()
+                            local currentTime = tick()
+                            local deltaTime = currentTime - lastUpdate
+                            lastUpdate = currentTime
+
+                            if fb and fb:FindFirstChild("Mesh") then
+                                part.CFrame = fb.CFrame * CFrame.new(fb.Velocity.X * deltaTime, fb.Velocity.Y * deltaTime, fb.Velocity.Z * deltaTime)
+                            end
+                        end)
+            elseif _G.BallHBE == false then
+                child.CanCollide = false
+                child.Size = Vector3.new(0.85, 1.2, 0.85)
+                local followingPart = game:GetService("Workspace"):FindFirstChild("BallHBE")
+                if followingPart then
+                    followingPart.Transparency = 1
+                end
+            end
+        end)
+
+end)
+
+tab2:Slider("Hitbox Size",3,20,7, function(t)
+_G.BallHBEPower = t
+end)
+
+tab2:Toggle("Pull Vector Mags",false, function(t)
+    _G.PullVector = t
+end)
+
+tab2:Slider("Pull Vector Power",1,35,15, function(t)
+_G.PullVectorDistance = t
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    for _, v in ipairs(game.Workspace:GetChildren()) do
+        if v.Name == "Football" and game:GetService("Players").LocalPlayer.Character and _G.PullVector == true then
+            local Angle = (v.Position - game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Unit
+            local Distance = (v.Position - game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position).Magnitude
+
+            if Distance < _G.PullVectorDistance then
+                game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Velocity = Angle * _G.PullVectorDistance
+            end
+        end
+    end
+end)
+
+
+tab5:Button("Low GFX", function()
+lib:Notification("Notification", "GFX", "Ok")
+local ToDisable = {
+	Textures = true,
+	VisualEffects = false,
+	Parts = true,
+	Particles = false,
+	Sky = false
+}
+ 
+local ToEnable = {
+	FullBright = false
+}
+ 
+local Stuff = {}
+ 
+for _, v in next, game:GetDescendants() do
+	if ToDisable.Parts then
+		if v:IsA("Part") or v:IsA("Union") or v:IsA("BasePart") then
+			v.Material = Enum.Material.SmoothPlastic
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Particles then
+		if v:IsA("ParticleEmitter") or v:IsA("Smoke") or v:IsA("Explosion") or v:IsA("Sparkles") or v:IsA("Fire") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.VisualEffects then
+		if v:IsA("BloomEffect") or v:IsA("BlurEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("SunRaysEffect") then
+			v.Enabled = false
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Textures then
+		if v:IsA("Decal") or v:IsA("Texture") then
+			v.Texture = ""
+			table.insert(Stuff, 1, v)
+		end
+	end
+ 
+	if ToDisable.Sky then
+		if v:IsA("Sky") then
+			v.Parent = nil
+			table.insert(Stuff, 1, v)
+		end
+	end
+end
+end)
+
+local changeclr = win:Tab("Change UI Color")
+
+changeclr:Colorpicker("Change UI Color",Color3.fromRGB(44, 120, 224), function(t)
+lib:ChangePresetColor(Color3.fromRGB(t.R * 255, t.G * 255, t.B * 255))
+end)
