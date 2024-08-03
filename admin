@@ -1,0 +1,31 @@
+if game.PlaceId == 360589910 then --HOOPS DEM
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/README.md'))()
+end
+ 
+if game.PlaceId == 2788229376 then --DA HOOD
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script2'))()
+end
+ 
+if game.PlaceId == 10191847911 then --STFO
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/script3'))()
+end
+ 
+if game.PlaceId == 6229116934 then --Hoops
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/script4'))()
+end
+ 
+if game.PlaceId == 9874911474 then --Tha Bronx 2
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script5'))()
+end
+ 
+if game.PlaceId == 1390601379 then --Combat Warriors
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script8'))()
+end
+ 
+if game.PlaceId == 2459091562 then --RH2
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script9'))()
+end
+ 
+if game.PlaceId == 15441481660 then --Realistic Basketball
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Nass2134/1/main/Script7'))()
+end
