@@ -1,3 +1,52 @@
+    for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerScripts.PlayerScriptsLoader.PlayerModule:GetChildren()) do
+    	if v.Name == "LocalScript" then
+        	if getscripthash(v) == "a128559dae783394eab339fc0f76e036382375be3fec1843aec7b88126d3ee5aa8010ec71388e87635ff10cd5f47b389" then
+        		warn('Autobypass does not need to be enabled (AC Script Did Not Update)')
+        	elseif getscripthash(v) ~= "a128559dae783394eab339fc0f76e036382375be3fec1843aec7b88126d3ee5aa8010ec71388e87635ff10cd5f47b389" then
+        		warn('Proceed with caution, ff2 has updated their AC Script (AntiCheat) So no worries! Autobypass got it covered!')
+        	end
+       end
+   end
+ 
+    -- namecall hook
+    Hooks.Namecall = hookmetamethod(game, "__namecall", function(self, ...)
+        local Method = getnamecallmethod()
+        local Args = {...}
+ 
+        if not checkcaller() and self == Remote and (Method == "FireServer" or Method == "fireServer") and Args[1] == "AC\226\154\156\239\184\143" then
+            if not HandshakeArgs then
+                if type(Args[2]) == "table" and #Args[2] == 19 then
+                    HandshakeArgs = Args[2]
+                end
+            else
+                return coroutine.yield()
+            end
+        end
+ 
+        return Hooks.Namecall(self, ...)
+    end)
+ 
+    while not HandshakeArgs do
+        task.wait()
+    end
+ 
+    task.wait(3)
+ 
+    for i, v in getconnections(Remote.OnClientEvent) do
+        if getinfo(v.Function).source:find("PlayerModule.LocalScript") then
+            v:Disable()
+        end
+    end
+ 
+    task.spawn(function()
+        while task.wait(0.5) do
+            Remote:FireServer("AC\226\154\156\239\184\143", HandshakeArgs, nil)
+        end
+    end)
+ 
+    print("Bypassed!")
+end
+
 local lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/Vape.txt")()
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
